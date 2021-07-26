@@ -8,7 +8,18 @@
 #CMD ./gradlew bootRun
 
 #Alternativa con el jar (previa ejecución de -gradlew assemble)
-FROM openjdk:11-jre-slim
-WORKDIR /app
-COPY build/libs/demo-0.0.1-SNAPSHOT.jar /app
+#FROM openjdk:11-jre-slim
+#WORKDIR /app
+#COPY build/libs/demo-0.0.1-SNAPSHOT.jar /app
+#CMD java -jar demo-0.0.1-SNAPSHOT.jar
+
+#Multi-stage build
+FROM openjdk:11 as base
+WORKDIR /opt/hello-gradle
+COPY ./ ./
+RUN ./gradlew assemble
+
+FROM adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
+WORKDIR /opt/hello-gradle
+COPY --from=base /opt/hello-gradle/build/libs/demo-0.0.1-SNAPSHOT.jar ./
 CMD java -jar demo-0.0.1-SNAPSHOT.jar
