@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                docker build -t hellogradle:main-1.0.${BUILD_NUMBER}-${GIT_COMMIT} .
+                sh 'docker build -t hellogradle:main-1.0.${BUILD_NUMBER}-${GIT_COMMIT} .'
             }
         }
         stage('Test') {
@@ -16,7 +16,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                docker-compose up -d
+                sh 'docker build -t hellogradle:main-1.0.${BUILD_NUMBER}-${GIT_COMMIT} .'
             }
         }
     }
