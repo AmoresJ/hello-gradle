@@ -4,14 +4,16 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Construyendo...'
-                sh './gradlew assemble'
+                withGradle {
+                    sh './gradlew assemble'
+                }
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'build/libs/*.jar'
+                }
             }
         }
-        stage('Archive') {
-            steps {
-                echo 'Archivando...'
-                archiveArtifacts artifacts: 'build/libs/*.jar'
-            }
-        }
+        
     }
 }
