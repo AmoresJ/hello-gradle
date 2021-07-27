@@ -16,7 +16,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'docker build -t hellogradle:main-1.0.${BUILD_NUMBER}-${GIT_COMMIT} .'
+                sh 'docker comnpose up'
             }
         }
     }
